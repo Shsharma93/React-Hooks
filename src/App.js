@@ -1,26 +1,28 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import Todo from './components/Todo';
+import Header from './components/Header';
+import Auth from './components/Auth';
+import {Provider} from './Auth-Context';
 
-function App() {
+const App = () => {
+  const [page, setPage] = useState('auth');
+
+  const switchPage = pageName => {
+    setPage(pageName);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Provider>
+      <div className='App'>
+        <Header
+          onLoadTodos={() => switchPage('todo')}
+          onLoadAuth={() => switchPage('auth')}
+        />
+        <hr />
+        {page === 'auth' ? <Auth /> : <Todo />}
+      </div>
+    </Provider>
   );
-}
+};
 
 export default App;
